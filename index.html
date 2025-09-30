@@ -7,7 +7,54 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <h1 id="title">library</h1>
+    <div class="container">
+        <div class="add-new-book">
+            <div class="input-container">
+                <h2>Add a book</h2>
+                <label for="titleInput">Enter the title:</label>
+                <input type="text" id="titleInput">
+    
+                <label for="authorInput">Author:</label>
+                <input type="text" id="authorInput">
+    
+                <label for="pagesInput">Number of Pages:</label>
+                <input type="text" id="pagesInput">
 
+                <label for="myFile">Book Cover:</label>
+                <input type="file" id="myFile" name="filename">
+    
+                <label for="myCheckbox">Read ?</label>
+                <input type="checkbox" id="myCheckbox" name="myCheckbox">
+
+
+                <button id="book-btn-submit">Add Book</button>
+
+        </div>
+
+        </div>
+        <div class="book-section">
+            <div class="book-card">
+                <p>placeholder</p>
+            </div>
+            <div class="book-card">
+                <p>placeholder</p>
+            </div>
+            <div class="book-card">
+                <p>placeholder</p>
+            </div>
+            <div class="book-card">
+                <p>placeholder</p>
+            </div>
+            <div class="book-card">
+                <p>placeholder</p>
+                <img class="book-cover" src="HaloEpitaphCoverFront.jpg" alt="book cover">
+                <button class="delete-book">
+                    <img id="trash-svg" src="svg/trash-svgrepo-com.svg" alt="trash-svg">
+                </button>
+            </div>
+        </div>
+    </div>
 
 <script src="app.js"></script>
 </body>
