@@ -1,9 +1,10 @@
 console.log('testing');
 
+let form = document.querySelector('#book-form');
 let bookTitle = document.querySelector('#titleInput');
 let bookAuthor = document.querySelector('#authorInput');
 let numPages = document.querySelector('#pagesInput');
-let readBox = document.querySelector('#myCheckbox');
+let readCheckBox = document.querySelector('#myCheckbox');
 let submitBtn = document.querySelector('#book-btn-submit');
 let bookCard = document.querySelector('.book-card');
 let bookSection = document.querySelector('.book-section');
@@ -11,10 +12,10 @@ let deleteBtn = document.querySelector('.delete-book');
 let bookCover = document.querySelector('#myFile');
 
 
-const myLibrary = ['dog', 'cat'];
+const myLibrary = [];
 
 function Book(title,author,pages,read) {
-  // the constructor...
+  // the constructor
   this.title = title; 
   this.author = author; 
   this.pages = pages;
@@ -29,12 +30,12 @@ function addBookToLibrary() {
   const coverURL = file ? URL.createObjectURL(file) : ''; // create temporary URL
 
   let book = {
-    id: Date.now(), // unique ID
+    id:crypto.randomUUID(), // unique ID
     cover: coverURL,
     title : bookTitle.value,
     author : bookAuthor.value,
     pages: numPages.value,
-    read : readBox.checked,
+    read : readCheckBox.checked,
 
   };
   
@@ -55,12 +56,19 @@ function updateBookSection() {
     <h3>${latestBook.title}</h3>
     <p>Author: ${latestBook.author}</p>
     <p>Pages: ${latestBook.pages}</p>
-    <p>Read: ${latestBook.read ? 'Yes' : 'No'}</p>
+    <p>Read: <input type="checkbox" class="read-toggle" ${latestBook.read ? 'checked' : ''}></p>
     <button class="delete-book"> <img id="trash-svg" src="svg/trash-svgrepo-com.svg" alt="trash-svg"></button>
   `;
 
   // append it to the section
   bookSection.appendChild(card);
+
+ const readCheckBox = card.querySelector('.read-toggle');
+
+  readCheckBox.addEventListener('change', function() {
+  latestBook.read = this.checked; // update the book object
+  console.log(myLibrary);
+});
 
   const deleteBtn = card.querySelector('.delete-book');
   deleteBtn.addEventListener('click', function () {
@@ -78,17 +86,41 @@ function updateBookSection() {
 }
 
 
-submitBtn.addEventListener('click', function(){
-
-  console.log('CLICKED');
-  addBookToLibrary();
-  console.log(myLibrary);
-  updateBookSection();
 
 
-}) 
+//add book form button
+form.addEventListener('submit', function (event) {
+  event.preventDefault();
 
-// deleteBtn.addEventListener('click',function(){
-//   console.log('testing dlt btn');
-//   card.remove();
-// })
+  // get all inputs inside the form
+  const inputs = form.querySelectorAll('input[required]');
+
+  // check each one
+  inputs.forEach(input => {
+    if (!input.checkValidity()) {
+      input.style.border = '2px solid red';
+    } else {
+      input.style.border = '2px solid green';
+    }
+  });
+
+  if (form.checkValidity()) {
+    addBookToLibrary();
+    updateBookSection();
+    console.log(myLibrary);
+    form.reset();
+
+    // clear the borders after submit
+    inputs.forEach(input => input.style.border = '');
+  } else {
+    console.log('invalid input');
+  }
+});
+
+//button to delete starter content
+deleteBtn.addEventListener('click',function(){
+  console.log('testing dlt btn');
+  bookCard.remove();
+  console.log(myLibrary)
+})
+
