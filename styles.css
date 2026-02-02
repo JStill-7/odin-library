@@ -9,20 +9,15 @@
     }
 
 #title {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 100px;
-    /* font-size: 50px; */
-    /* margin-bottom: 28px; */
-    /* border: 2px solid navy; */
-    font-family: "Radley", serif;
-    font-weight: 500;
-    font-style: normal;
-    /* background-color: #8f6f64;
-    color: #1c282a; */
-    background-color: #423832;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  font-family: "Radley", serif;
+  font-weight: 500;
+  font-style: normal;
+  background-color: #423832;
   color: #f2ede7;
   font-size: 3rem;
   padding: 1rem;
@@ -30,9 +25,17 @@
   text-shadow: 1px 1px 0 #6d4c3f;
 }
 
+#footer {
+  font-family: "Radley", serif;
+  background-color: #423832;
+  color: #f2ede7;
+  display: flex;
+  justify-content: center;
+  
+}
+
 .container {
     display: grid;
-    /* border: 2px solid green; */
     grid-template-columns: 1.5fr 4fr;
     grid-template-rows: repeat(4,1fr);
     height: 100vh;
@@ -40,6 +43,7 @@
 
 .input-container {
     border: 2px solid #1c282a;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -47,8 +51,6 @@
     height: 500px;
     width: 400px;
     justify-content: space-around;
-    /* color: #b8bec4; */
-    /* color: #202528; */
     color: #1c282a;
     margin-bottom: 120px;
     font-size: 20px;
@@ -58,14 +60,11 @@
 }
 
 .add-new-book {
-    /* border: 2px solid salmon; */
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /* background-color: #8f6f64; */
-
     border-right: 4px solid #423832;
     background-color: #8f6f64;
     box-shadow: inset -4px 0 8px rgba(0,0,0,0.2);
@@ -73,7 +72,6 @@
 }
 
 .book-section {
-    /* border: 2px solid maroon; */
     height: 100vh;
     display: grid;
     grid-auto-rows: auto;
@@ -83,27 +81,20 @@
 }
 
 .book-card {
-    /* border: 2px solid rgb(19, 66, 40); */
-
-    /* border: 2px solid #423832; */
-    /* height: 300px; */
-    /* width: 300px; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* color: #423832; */
     font-size: 20px;
     font-family: "Radley", serif;
     font-style: normal;
     font-weight: 400;
     margin: 15px;
-
-      background-color: #ede3dc;
-  border: 2px solid #b09d96;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(28, 40, 42, 0.15);
-  transition: transform 0.2s ease;
+    background-color: #ede3dc;
+    border: 2px solid #b09d96;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(28, 40, 42, 0.15);
+    transition: transform 0.2s ease;
     
 }
 
@@ -121,15 +112,12 @@
 }
 
 #book-btn-submit {
-    border: none;
-    /* border-radius: 15px; */
-    width: 170px;
-    height: 40px;
-    cursor: pointer;
-    /* background-color: #1c282a;
-    color: #8f6f64; */
-    font-size: 24px;
-      background-color: #423832;
+  border: none;
+  width: 170px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 24px;
+  background-color: #423832;
   color: #ede3dc;
   border-radius: 10px;
   padding: 0.5rem 1.2rem;
@@ -137,11 +125,9 @@
 }
 
 #book-btn-submit:hover {
-    /* background-color: #2c3a3d; */
-      background-color: #b58463;
+  background-color: #b58463;
   color: #f2ede7;
-     transform: scale(1.1);
-    /* transition: 0.2s ease-in;  */
+  transform: scale(1.1);
 }
 
 input[type="file"] {
@@ -149,23 +135,20 @@ input[type="file"] {
 }
 
 .file-button {
-    cursor: pointer;
-    /* background-color: #1c282a;
-    color: #8f6f64; */
-    background-color: #423832;
-    color: #ede3dc;
-    border-radius: 15px;
-    width: 180px;
-    height: 40px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center; 
-    font-family: inherit;
+  cursor: pointer;
+  background-color: #423832;
+  color: #ede3dc;
+  border-radius: 15px;
+  width: 180px;
+  height: 40px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  font-family: inherit;
 }
 
 .file-button:hover {
-  /* background-color: #2c3a3d; */
   background-color: #b58463;
   color: #ede3dc;
 }
@@ -182,10 +165,9 @@ input[type="file"] {
 }
 
 .delete-book {
-    background: none;
-    /* background-color: darkgray; */
-    cursor: pointer;
-    border: none;
+  background: none;
+  cursor: pointer;
+  border: none;
 }
 
 .delete-book:hover {
@@ -197,21 +179,3 @@ input[type="file"] {
   height: 28px;
   display: block;
 }
-
-/* #trash-svg {
-    width: 30px;
-    height: 30px;
-     background-color: darkgray;
-} */
-
-/* input:invalid {
-  border: 1px solid red;
-}
-
-input:valid {
-    border: 1px solid green;
-} */
-
-/* .card {
-    border: 1px solid maroon;
-} */

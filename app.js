@@ -1,12 +1,11 @@
-console.log('testing');
-
+// DOM ELEMENTS
 let form = document.querySelector('#book-form');
 let bookTitle = document.querySelector('#titleInput');
 let bookAuthor = document.querySelector('#authorInput');
 let numPages = document.querySelector('#pagesInput');
 let readCheckBox = document.querySelector('#myCheckbox');
-let submitBtn = document.querySelector('#book-btn-submit');
-let bookCard = document.querySelector('.book-card');
+// let submitBtn = document.querySelector('#book-btn-submit');
+// let bookCard = document.querySelector('.book-card');
 let bookSection = document.querySelector('.book-section');
 let deleteBtn = document.querySelector('.delete-book');
 let bookCover = document.querySelector('#myFile');
@@ -14,78 +13,90 @@ let bookCover = document.querySelector('#myFile');
 
 const myLibrary = [];
 
-function Book(title,author,pages,read) {
-  // the constructor
-  this.title = title; 
-  this.author = author; 
-  this.pages = pages;
-  this.read = read;
+// Starter books (for visual/demo purposes)
+const starterBooks = [
+  {
+    id: crypto.randomUUID(),
+    cover: 'HaloEpitaphCoverFront.jpg',
+    title: 'Halo:Epitaph',
+    author: 'Kelly Gay',
+    pages: 304,
+    read: true,
+  },
+  {
+    id: crypto.randomUUID(),
+    cover: 'Halo_Edge_of_Dawn_Front_Cover.jpg',
+    title: 'Halo: Edge of Dawn',
+    author: 'Kelly Gay',
+    pages: 336,
+    read: false,
+  },
+  {
+    id: crypto.randomUUID(),
+    cover: 'Halo_New_Blood_cover.jpg',
+    title: 'Halo: New Blood',
+    author: 'Matt Forbeck',
+    pages: 200,
+    read: true,
+  }
+];
+
+//BOOK CLASS
+class Book {
+  constructor(title,author,pages,read, cover = '') {
+    this.id = crypto.randomUUID();
+    this.title = title; 
+    this.author = author; 
+    this.pages = pages;
+    this.read = read;
+    this.cover = cover;
+  }
+
 
 }
 
-function addBookToLibrary() {
-  // take params, create a book then store it in the array
 
-  const file = bookCover.files[0]; // get the first selected file
-  const coverURL = file ? URL.createObjectURL(file) : ''; // create temporary URL
 
-  let book = {
-    id:crypto.randomUUID(), // unique ID
-    cover: coverURL,
-    title : bookTitle.value,
-    author : bookAuthor.value,
-    pages: numPages.value,
-    read : readCheckBox.checked,
+function renderLibrary() {
+  // clear existing books
+  bookSection.innerHTML = '';
 
-  };
-  
-  myLibrary.push(book);
-}
+  // loop through all books
+  myLibrary.forEach(book => {
+    const card = document.createElement('div');
+    card.classList.add('book-card');
+    card.dataset.id = book.id;
 
-function updateBookSection() {
-// get the most recent book
-  const latestBook = myLibrary[myLibrary.length - 1];
+    card.innerHTML = `
+      ${book.cover ? `<img src="${book.cover}" alt="Book Cover" class="book-cover">` : ''}
+      <h3>${book.title}</h3>
+      <p>Author: ${book.author}</p>
+      <p>Pages: ${book.pages}</p>
+      <p>Read: <input type="checkbox" class="read-toggle" ${book.read ? 'checked' : ''}></p>
+      <button class="delete-book"><img id="trash-svg" src="svg/trash-svgrepo-com.svg" alt="trash-svg"></button>
+    `;
 
-  // create a new card element
-  const card = document.createElement('div');
-  card.classList.add('book-card');
-  card.dataset.id = latestBook.id; // store the book ID
+    // add to DOM
+    bookSection.appendChild(card);
 
-  card.innerHTML = `
-    ${latestBook.cover ? `<img src="${latestBook.cover}" alt="Book Cover" class="book-cover">` : ''}
-    <h3>${latestBook.title}</h3>
-    <p>Author: ${latestBook.author}</p>
-    <p>Pages: ${latestBook.pages}</p>
-    <p>Read: <input type="checkbox" class="read-toggle" ${latestBook.read ? 'checked' : ''}></p>
-    <button class="delete-book"> <img id="trash-svg" src="svg/trash-svgrepo-com.svg" alt="trash-svg"></button>
-  `;
+    // read toggle
+    const readToggle = card.querySelector('.read-toggle');
+    readToggle.addEventListener('change', function () {
+      book.read = this.checked;
+      console.log(`${book.title} read status updated:`, book.read);
+    });
 
-  // append it to the section
-  bookSection.appendChild(card);
-
- const readCheckBox = card.querySelector('.read-toggle');
-
-  readCheckBox.addEventListener('change', function() {
-  latestBook.read = this.checked; // update the book object
-  console.log(myLibrary);
-});
-
-  const deleteBtn = card.querySelector('.delete-book');
-  deleteBtn.addEventListener('click', function () {
-    const id = parseInt(card.dataset.id, 10);
-
-    // remove from array
-    const index = myLibrary.findIndex(book => book.id === id);
-    if (index !== -1) {
-      myLibrary.splice(index, 1);
-
-    }
-    console.log('Deleting book…');
-    card.remove(); // removes the entire card
+    // delete button
+    const deleteBtn = card.querySelector('.delete-book');
+    deleteBtn.addEventListener('click', function () {
+      const index = myLibrary.findIndex(b => b.id === book.id);
+      if (index !== -1) myLibrary.splice(index, 1);
+      card.remove();
+      console.log(`Deleted: ${book.title}`);
+      console.log(myLibrary);
+    });
   });
 }
-
-
 
 
 //add book form button
@@ -105,22 +116,29 @@ form.addEventListener('submit', function (event) {
   });
 
   if (form.checkValidity()) {
-    addBookToLibrary();
-    updateBookSection();
-    console.log(myLibrary);
-    form.reset();
+  const file = bookCover.files[0];
+  const coverURL = file ? URL.createObjectURL(file) : '';
 
-    // clear the borders after submit
-    inputs.forEach(input => input.style.border = '');
-  } else {
-    console.log('invalid input');
+  const newBook = new Book(
+    bookTitle.value,
+    bookAuthor.value,
+    numPages.value,
+    readCheckBox.checked,
+    coverURL
+  );
+
+  myLibrary.push(newBook);
+  renderLibrary();
+  form.reset();
   }
 });
 
-//button to delete starter content
-deleteBtn.addEventListener('click',function(){
-  console.log('testing dlt btn');
-  bookCard.remove();
-  console.log(myLibrary)
-})
 
+
+// Load starter books on page load
+starterBooks.forEach(b => {
+  myLibrary.push(
+    new Book(b.title, b.author, b.pages, b.read, b.cover)
+  );
+});
+renderLibrary();
